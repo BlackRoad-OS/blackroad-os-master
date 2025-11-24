@@ -203,7 +203,7 @@ jobs:
     steps:
       - name: Trigger agent service
         run: |
-          curl -X POST https://agents.blackroad.io/api/dispatch \
+          curl -X POST ${{ secrets.AGENT_API_URL }}/api/dispatch \
             -H "Authorization: Bearer ${{ secrets.AGENT_API_KEY }}" \
             -d '{"issue": "${{ github.event.issue.number }}"}'
 ```
@@ -227,7 +227,7 @@ jobs:
     steps:
       - name: Trigger polling agent
         run: |
-          curl -X POST https://agents.blackroad.io/api/poll
+          curl -X POST ${{ secrets.AGENT_API_URL }}/api/poll
 ```
 
 ### Pattern 4: Distributed Consensus (Project Boards)

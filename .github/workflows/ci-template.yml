@@ -63,7 +63,10 @@ jobs:
       #   uses: golangci/golangci-lint-action@v3
 
       - name: Lint placeholder
-        run: echo "Add your linting commands here"
+        run: |
+          echo "⚠️ WARNING: Linting is not configured!"
+          echo "Please uncomment and configure linting for your tech stack above."
+          echo "This placeholder will pass, but does not perform actual linting."
 
   test:
     runs-on: ubuntu-latest
@@ -85,7 +88,10 @@ jobs:
       #   run: go test ./...
 
       - name: Test placeholder
-        run: echo "Add your test commands here"
+        run: |
+          echo "⚠️ WARNING: Tests are not configured!"
+          echo "Please uncomment and configure testing for your tech stack above."
+          echo "This placeholder will pass, but does not run actual tests."
 
   build:
     runs-on: ubuntu-latest
@@ -103,4 +109,7 @@ jobs:
       #   run: go build -o app ./cmd/server
 
       - name: Build placeholder
-        run: echo "Add your build commands here"
+        run: |
+          echo "⚠️ WARNING: Build is not configured!"
+          echo "Please uncomment and configure building for your tech stack above."
+          echo "This placeholder will pass, but does not perform actual builds."

@@ -39,6 +39,8 @@ feat(web): add dashboard widget system
 feat(operator): add auto-scaling support
 ```
 
+**Note:** For breaking changes, add `!` after type/scope: `feat(api)!: ...`
+
 ### `fix` – Bug Fixes
 Corrections to existing functionality
 
