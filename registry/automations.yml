@@ -1,0 +1,32 @@
+# High-level automation blueprints; downstream services should read and implement.
+# No secrets or tokens belong here.
+
+automations:
+  - name: "Auto-card for new incidents"
+    trigger:
+      source: "connectors"
+      connector_tag: "incident"
+    action:
+      create_issue:
+        repo: "<from connector>"
+        template: "work-card"
+        preset:
+          status: "🆘"
+          priority: "P0"
+          labels: ["incident"]
+
+  - name: "Blocked-card alert"
+    trigger:
+      project_status_emoji: "🔴"
+    action:
+      notify:
+        channel: "ops-alerts"
+        mode: "slack-or-email"
+      add_label: "blocked"
+
+  - name: "Needs Clarification bucket"
+    trigger:
+      project_status_emoji: "🤔"
+    action:
+      add_to_view: "Needs Clarification"
+      mention_role: "@blackroad-product"

@@ -1,0 +1,16 @@
+# Canonical list of GitHub Projects and their purpose.
+# No secrets; humans and agents consume this file to route work consistently.
+
+projects:
+  - name: "BlackRoad OS – Agent Hub"
+    slug: agent-hub
+    purpose: "Central board for cross-repo agent tasks and triage using the 🪧 Work Card template."
+    default_views: ["All Work", "Now", "Blocked", "Needs Clarification", "Incidents"]
+  - name: "BlackRoad OS – Infra"
+    slug: infra
+    purpose: "Infrastructure upkeep, incidents, and platform changes."
+    default_views: ["All Work", "Now", "Blocked", "Incidents"]
+  - name: "BlackRoad OS – Product"
+    slug: product
+    purpose: "Product planning, discovery, and delivery workflows aligned to the emoji spec."
+    default_views: ["All Work", "Now", "Blocked", "Needs Clarification"]
