@@ -9,6 +9,11 @@ on:
   pull_request:
     types: [opened, labeled, unlabeled, assigned, unassigned, ready_for_review, converted_to_draft]
 
+permissions:
+  contents: read
+  issues: write  # Needed for updating issue labels and fields
+  pull-requests: write  # Needed for updating PR labels and fields
+
 jobs:
   sync-to-project:
     runs-on: ubuntu-latest

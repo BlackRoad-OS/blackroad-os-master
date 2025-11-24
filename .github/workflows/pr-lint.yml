@@ -6,6 +6,10 @@ on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
 
+permissions:
+  contents: read
+  pull-requests: write  # Needed for posting comments and updating PR
+
 jobs:
   pr-title-lint:
     runs-on: ubuntu-latest
