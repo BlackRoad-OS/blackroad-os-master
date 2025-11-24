@@ -1,0 +1,118 @@
+name: CI – Standard
+
+# This is a reusable CI template for BlackRoad OS repositories
+# It provides standard linting, testing, and building steps
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (if applicable)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+        # Uncomment if using npm
+        # - name: Install dependencies
+        #   run: npm ci
+
+      # Uncomment for Python projects
+      # - name: Setup Python
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.11'
+      #     cache: 'pip'
+      # - name: Install Python dependencies
+      #   run: pip install -r requirements.txt
+
+      # Uncomment for Go projects
+      # - name: Setup Go
+      #   uses: actions/setup-go@v4
+      #   with:
+      #     go-version: '1.21'
+      #     cache: true
+      # - name: Download Go dependencies
+      #   run: go mod download
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Example: ESLint for Node.js
+      # - name: Run ESLint
+      #   run: npm run lint
+
+      # Example: Ruff for Python
+      # - name: Run Ruff
+      #   run: ruff check .
+
+      # Example: golangci-lint for Go
+      # - name: Run golangci-lint
+      #   uses: golangci/golangci-lint-action@v3
+
+      - name: Lint placeholder
+        run: |
+          echo "⚠️ WARNING: Linting is not configured!"
+          echo "Please uncomment and configure linting for your tech stack above."
+          echo "This placeholder will pass, but does not perform actual linting."
+
+  test:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Example: Jest for Node.js
+      # - name: Run tests
+      #   run: npm test
+
+      # Example: pytest for Python
+      # - name: Run pytest
+      #   run: pytest
+
+      # Example: Go tests
+      # - name: Run Go tests
+      #   run: go test ./...
+
+      - name: Test placeholder
+        run: |
+          echo "⚠️ WARNING: Tests are not configured!"
+          echo "Please uncomment and configure testing for your tech stack above."
+          echo "This placeholder will pass, but does not run actual tests."
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Example: Build for Node.js
+      # - name: Build application
+      #   run: npm run build
+
+      # Example: Build for Go
+      # - name: Build Go binary
+      #   run: go build -o app ./cmd/server
+
+      - name: Build placeholder
+        run: |
+          echo "⚠️ WARNING: Build is not configured!"
+          echo "Please uncomment and configure building for your tech stack above."
+          echo "This placeholder will pass, but does not perform actual builds."

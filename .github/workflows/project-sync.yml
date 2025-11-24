@@ -1,0 +1,98 @@
+name: Project Sync
+
+# This workflow automatically syncs issues and PRs to the BlackRoad OS Master Project
+# It sets team labels, status fields, and keeps the project board updated
+
+on:
+  issues:
+    types: [opened, labeled, unlabeled, assigned, unassigned]
+  pull_request:
+    types: [opened, labeled, unlabeled, assigned, unassigned, ready_for_review, converted_to_draft]
+
+permissions:
+  contents: read
+  issues: write  # Needed for updating issue labels and fields
+  pull-requests: write  # Needed for updating PR labels and fields
+
+jobs:
+  sync-to-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add to project
+        uses: actions/add-to-project@v0.5.0
+        with:
+          project-url: https://github.com/orgs/BlackRoad-OS/projects/1
+          github-token: ${{ secrets.PROJECT_TOKEN }}
+          # Note: PROJECT_TOKEN must be set as a repository secret
+          # with appropriate permissions to modify the project
+
+  update-project-fields:
+    runs-on: ubuntu-latest
+    needs: sync-to-project
+    steps:
+      - name: Update project fields based on labels
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PROJECT_TOKEN }}
+          script: |
+            const issue = context.payload.issue || context.payload.pull_request;
+            const labels = issue.labels.map(l => l.name);
+            
+            console.log('Issue/PR:', issue.number);
+            console.log('Labels:', labels);
+            
+            // Map labels to teams
+            const teamMapping = {
+              'Team: Core': 'Core',
+              'Team: API': 'API',
+              'Team: Operator': 'Operator',
+              'Team: Web': 'Web',
+              'Team: Prism Console': 'Prism Console',
+              'Team: Infra': 'Infra',
+              'Team: Docs': 'Docs',
+              'Team: Research': 'Research',
+              'Team: Brand': 'Brand',
+            };
+            
+            // Map labels to status
+            const statusMapping = {
+              'Status: Ready': 'Ready',
+              'Status: In Progress': 'In Progress',
+              'Status: Blocked': 'Blocked',
+              'Status: Needs Review': 'Needs Review',
+            };
+            
+            // Determine team and status from labels
+            let team = null;
+            let status = null;
+            
+            for (const label of labels) {
+              if (teamMapping[label]) team = teamMapping[label];
+              if (statusMapping[label]) status = statusMapping[label];
+            }
+            
+            // Set default status for new items
+            if (!status && context.payload.action === 'opened') {
+              status = 'New';
+            }
+            
+            // Set status based on assignment
+            if (context.payload.action === 'assigned' && !labels.includes('Status: In Progress')) {
+              status = 'In Progress';
+            }
+            
+            // Set status for PRs
+            if (context.payload.pull_request) {
+              if (context.payload.pull_request.draft) {
+                status = 'In Progress';
+              } else if (context.payload.action === 'ready_for_review') {
+                status = 'Needs Review';
+              }
+            }
+            
+            console.log('Detected team:', team);
+            console.log('Detected status:', status);
+            
+            // Note: Actual project field updates require GitHub Projects API
+            // This is a placeholder for the logic
+            // Implement using @octokit/graphql for full functionality
