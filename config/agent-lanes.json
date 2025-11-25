@@ -1,0 +1,217 @@
+{
+  "$schema": "../schemas/agent-lanes.schema.json",
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-01T00:00:00Z",
+  "description": "🤖 Lanes + guardrails for agent fleets",
+  "lanes": {
+    "code-quality": {
+      "id": "code-quality",
+      "name": "Code Quality Lane",
+      "description": "Automated code quality improvements",
+      "emoji": "✨",
+      "allowedActions": [
+        "linting-fixes",
+        "formatting",
+        "code-style-updates",
+        "dead-code-removal"
+      ],
+      "allowedRepos": ["*"],
+      "excludedRepos": [],
+      "restrictions": {
+        "maxFilesPerPR": 20,
+        "requireTests": false,
+        "requireApproval": false,
+        "blockedPaths": ["**/config/**", "**/secrets/**", "**/.env*"]
+      }
+    },
+    "dependency-updates": {
+      "id": "dependency-updates",
+      "name": "Dependency Update Lane",
+      "description": "Automated dependency updates and security patches",
+      "emoji": "📦",
+      "allowedActions": [
+        "minor-version-updates",
+        "patch-version-updates",
+        "security-patches"
+      ],
+      "allowedRepos": ["*"],
+      "excludedRepos": [],
+      "restrictions": {
+        "maxFilesPerPR": 5,
+        "requireTests": true,
+        "requireApproval": true,
+        "majorVersionsRequireHumanApproval": true,
+        "blockedPaths": []
+      }
+    },
+    "documentation": {
+      "id": "documentation",
+      "name": "Documentation Lane",
+      "description": "Automated documentation updates",
+      "emoji": "📖",
+      "allowedActions": [
+        "readme-updates",
+        "api-docs-generation",
+        "changelog-updates",
+        "comment-improvements"
+      ],
+      "allowedRepos": ["*"],
+      "excludedRepos": [],
+      "restrictions": {
+        "maxFilesPerPR": 50,
+        "requireTests": false,
+        "requireApproval": false,
+        "allowedFileTypes": [".md", ".mdx", ".txt", ".rst"]
+      }
+    },
+    "testing": {
+      "id": "testing",
+      "name": "Testing Lane",
+      "description": "Automated test generation and improvements",
+      "emoji": "🧪",
+      "allowedActions": [
+        "test-generation",
+        "test-coverage-improvement",
+        "test-fixture-updates"
+      ],
+      "allowedRepos": ["*"],
+      "excludedRepos": [],
+      "restrictions": {
+        "maxFilesPerPR": 30,
+        "requireTests": false,
+        "requireApproval": false,
+        "allowedPaths": ["**/test/**", "**/tests/**", "**/__tests__/**", "**/*.test.*", "**/*.spec.*"]
+      }
+    },
+    "security-scanning": {
+      "id": "security-scanning",
+      "name": "Security Scanning Lane",
+      "description": "Automated security vulnerability detection and fixes",
+      "emoji": "🔐",
+      "allowedActions": [
+        "vulnerability-detection",
+        "security-patch-application",
+        "secret-scanning"
+      ],
+      "allowedRepos": ["*"],
+      "excludedRepos": [],
+      "restrictions": {
+        "maxFilesPerPR": 10,
+        "requireTests": true,
+        "requireApproval": true,
+        "notifySecurityTeam": true,
+        "blockedPaths": []
+      }
+    },
+    "release-automation": {
+      "id": "release-automation",
+      "name": "Release Automation Lane",
+      "description": "Automated release preparation",
+      "emoji": "🚀",
+      "allowedActions": [
+        "version-bump",
+        "changelog-generation",
+        "release-notes-creation",
+        "tag-creation"
+      ],
+      "allowedRepos": ["*"],
+      "excludedRepos": ["blackroad-os-research"],
+      "restrictions": {
+        "maxFilesPerPR": 10,
+        "requireTests": true,
+        "requireApproval": true,
+        "majorReleasesRequireHumanApproval": true,
+        "allowedPaths": ["CHANGELOG.md", "package.json", "version.*", "pyproject.toml", "Cargo.toml"]
+      }
+    }
+  },
+  "guardrails": {
+    "global": {
+      "description": "Global guardrails for all agents",
+      "rules": [
+        {
+          "id": "no-secrets",
+          "description": "Never commit secrets or credentials",
+          "enforcement": "block",
+          "emoji": "🚫"
+        },
+        {
+          "id": "no-prod-direct",
+          "description": "Never push directly to production branches",
+          "enforcement": "block",
+          "emoji": "🚫"
+        },
+        {
+          "id": "require-pr",
+          "description": "All changes must go through PR process",
+          "enforcement": "block",
+          "emoji": "📋"
+        },
+        {
+          "id": "respect-codeowners",
+          "description": "Respect CODEOWNERS for review requirements",
+          "enforcement": "warn",
+          "emoji": "👥"
+        }
+      ]
+    },
+    "compliance": {
+      "description": "Guardrails for compliance-sensitive areas",
+      "rules": [
+        {
+          "id": "compliance-review",
+          "description": "Compliance-sensitive changes require additional review",
+          "enforcement": "block",
+          "emoji": "⚖️",
+          "note": "// COMPLIANCE-SENSITIVE ORCHESTRATION"
+        },
+        {
+          "id": "audit-trail",
+          "description": "Maintain audit trail for all compliance changes",
+          "enforcement": "block",
+          "emoji": "📝"
+        },
+        {
+          "id": "no-auto-merge-finance",
+          "description": "No auto-merge for finance-related changes",
+          "enforcement": "block",
+          "emoji": "💰",
+          "affectedRepos": ["blackroad-os-pack-finance"]
+        },
+        {
+          "id": "no-auto-merge-legal",
+          "description": "No auto-merge for legal-related changes",
+          "enforcement": "block",
+          "emoji": "⚖️",
+          "affectedRepos": ["blackroad-os-pack-legal"]
+        },
+        {
+          "id": "no-auto-merge-identity",
+          "description": "No auto-merge for identity-related changes",
+          "enforcement": "block",
+          "emoji": "🪪",
+          "affectedRepos": ["blackroad-os-core"]
+        }
+      ]
+    }
+  },
+  "notifications": {
+    "channels": {
+      "security": {
+        "description": "Security-related notifications",
+        "emoji": "🔐",
+        "urgency": "high"
+      },
+      "releases": {
+        "description": "Release-related notifications",
+        "emoji": "🚀",
+        "urgency": "medium"
+      },
+      "dependencies": {
+        "description": "Dependency update notifications",
+        "emoji": "📦",
+        "urgency": "low"
+      }
+    }
+  }
+}
