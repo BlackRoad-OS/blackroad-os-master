@@ -1,7 +1,7 @@
 {
   "$schema": "../schemas/automation.schema.json",
   "version": "1.0.0",
-  "lastUpdated": "2025-01-01T00:00:00Z",
+  "lastUpdated": "2025-11-25T22:41:00Z",
   "description": "🧬 High-level configs that automation/agents read",
   "coreRepos": [
     "blackroad-os-core",
