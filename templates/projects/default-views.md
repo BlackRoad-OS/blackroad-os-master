@@ -24,7 +24,7 @@ Copy the block below into the Project description when creating a new board.
 ```md
 **Status legend:** 🟢 Ready • 🟡 In Progress • 🔴 Blocked • 🤔 Needs Clarification • 🆘 Emergency • 🛟 Assist • ⚠️ Risk • 🚫 Won’t Do • 🛑 Hold
 **Document states:** 📕 Draft • 📗 In Review • 📘 Approved • 📙 Needs Update • 📖 Canon • 📓 Notes
-**Roles:** 🧍‍♀️ Human • 🤖 Agent • 🧬 Hybrid • 🫸 Requester • 🫀 Impacted team
+**Human/agent roles:** 🧍‍♀️ Human lead • 🤖 Agent • 🧬 Hybrid • 🫸 Requester • 🫀 Impacted team
 **Columns:** 📓 Backlog → 🟢 Ready → 🟡 In Progress → 📗 In Review → 📘 Approved/Done → 📙 Needs Update → 🚫 Won’t Do
 **Views:** All Work | Now | Blocked | Needs Clarification | Incidents
 **Progress bar:** 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜
