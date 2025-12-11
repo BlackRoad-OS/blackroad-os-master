@@ -1,0 +1,24 @@
+# Map of inbound sources to GitHub repositories and projects.
+# This file is safe to share and contains no credentials or secrets.
+
+connectors:
+  - source: "web-form"
+    kind: "lead | support | feedback"
+    target_repo: "BlackRoad-OS/blackroad-os-home"
+    template: "work-card"
+    default_project: "BlackRoad OS – Agent Hub"
+    default_status_emoji: "🟢"
+
+  - source: "ops-email"
+    address: "ops@blackroad.systems"
+    target_repo: "BlackRoad-OS/blackroad-os-infra"
+    template: "work-card"
+    default_project: "BlackRoad OS – Agent Hub"
+    default_status_emoji: "🆘"
+    tags: ["incident"]
+
+  - source: "internal-api"
+    endpoint: "/tasks/create"
+    target_repo: "BlackRoad-OS/blackroad-os-operator"
+    template: "work-card"
+    default_status_emoji: "🟢"
