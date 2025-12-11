@@ -29,5 +29,5 @@ Copy the block below into the Project description when creating a new board.
 **Views:** All Work | Now | Blocked | Needs Clarification | Incidents
 **Progress bar:** 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜
 
-This project follows the canonical emoji workflow spec in `blackroad-os`. Do not redefine emojis locally.
+This project follows the canonical emoji workflow spec in `BlackRoad-OS/blackroad-os`. Do not redefine emojis locally.
 ```
