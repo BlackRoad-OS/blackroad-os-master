@@ -27,7 +27,7 @@ Copy the block below into the Project description when creating a new board.
 **Roles:** 🧍‍♀️ Human • 🤖 Agent • 🧬 Hybrid • 🫸 Requester • 🫀 Impacted team
 **Columns:** 📓 Backlog → 🟢 Ready → 🟡 In Progress → 📗 In Review → 📘 Approved/Done → 📙 Needs Update → 🚫 Won’t Do
 **Views:** All Work | Now | Blocked | Needs Clarification | Incidents
-**Progress:** 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜
+**Progress bar:** 🟩🟩🟩🟩🟩🟩🟩🟩⬜⬜
 
 This project follows the canonical emoji workflow spec in `blackroad-os`. Do not redefine emojis locally.
 ```
