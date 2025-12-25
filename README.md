@@ -28,6 +28,9 @@ blackroad-os-master/
 │   └── agent-lanes.json     Lanes + guardrails for agent fleets
 ├── status/              📊 Meta-status views
 │   └── summary.json         Summary status of major subsystems
+├── templates/           📋 Reusable templates & knowledge base
+│   ├── status-lights/       🚦 GreenLight, YellowLight, RedLight templates
+│   └── codex/               📚 BlackRoad Codex (ADRs, patterns, practices, glossary)
 ├── schemas/             🧬 JSON schemas for validation
 │   ├── repos.schema.json
 │   ├── ownership.schema.json
@@ -57,6 +60,18 @@ blackroad-os-master/
 ### 📊 Meta-Status Views (Lightweight)
 - Summary status: which major subsystems are "ready", "in progress", "experimental" 🟢🟡🟠
 - Links to deeper status in `prism-console`, `archive`, `infra`, `operator` 📡
+
+### 🚦 Status Light Templates
+- **GreenLight** (🟢) - Production-ready, stable, fully operational
+- **YellowLight** (🟡) - In-progress, under development, needs attention
+- **RedLight** (🔴) - Blocked, critical issues, immediate action needed
+- Standardized criteria and checklists for status assessment
+
+### 📚 BlackRoad Codex
+- **Decisions** - Architecture Decision Records (ADRs) documenting key choices
+- **Patterns** - Reusable solutions to common problems across the constellation
+- **Practices** - Team conventions and best practices for consistency
+- **Glossary** - Definitions of terms, acronyms, and concepts used ecosystem-wide
 
 ---
 
@@ -171,4 +186,6 @@ If a new "Cadillac-level" operator (human or agent) lands here, they should be a
 - 🧭 [Registries](./registries/)
 - 🧬 [Automation Config](./config/)
 - 📊 [Status Summary](./status/)
+- 🚦 [Status Light Templates](./templates/status-lights/)
+- 📚 [BlackRoad Codex](./templates/codex/)
 - 🧬 [Schemas](./schemas/)
