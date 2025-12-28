@@ -1,0 +1,254 @@
+{
+  "$schema": "../schemas/repos.schema.json",
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-25T22:41:00Z",
+  "description": "🧭 Master registry of repos → services → domains → envs",
+  "repositories": {
+    "core": [
+      {
+        "id": "blackroad-os-core",
+        "name": "Core",
+        "description": "Core business logic and shared libraries",
+        "domain": "platform",
+        "type": "core",
+        "status": "ready",
+        "environments": ["dev", "staging", "prod"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-core",
+        "emoji": "💻"
+      },
+      {
+        "id": "blackroad-os-web",
+        "name": "Web",
+        "description": "Frontend web application",
+        "domain": "frontend",
+        "type": "core",
+        "status": "ready",
+        "environments": ["dev", "staging", "prod"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-web",
+        "emoji": "🌐"
+      },
+      {
+        "id": "blackroad-os-api",
+        "name": "API",
+        "description": "Backend API services",
+        "domain": "backend",
+        "type": "core",
+        "status": "ready",
+        "environments": ["dev", "staging", "prod"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-api",
+        "emoji": "🔌"
+      },
+      {
+        "id": "blackroad-os-api-gateway",
+        "name": "API Gateway",
+        "description": "Edge gateway and routing",
+        "domain": "infrastructure",
+        "type": "core",
+        "status": "ready",
+        "environments": ["dev", "staging", "prod"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-api-gateway",
+        "emoji": "🌉"
+      }
+    ],
+    "infrastructure": [
+      {
+        "id": "blackroad-os-operator",
+        "name": "Operator",
+        "description": "Job orchestration and automation",
+        "domain": "automation",
+        "type": "infrastructure",
+        "status": "ready",
+        "environments": ["dev", "staging", "prod"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-operator",
+        "emoji": "⚙️"
+      },
+      {
+        "id": "blackroad-os-infra",
+        "name": "Infra",
+        "description": "Infrastructure as code",
+        "domain": "infrastructure",
+        "type": "infrastructure",
+        "status": "ready",
+        "environments": ["dev", "staging", "prod"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-infra",
+        "emoji": "☁️"
+      },
+      {
+        "id": "blackroad-os-prism-console",
+        "name": "Prism Console",
+        "description": "Runtime dashboards and monitoring",
+        "domain": "observability",
+        "type": "infrastructure",
+        "status": "in-progress",
+        "environments": ["dev", "staging", "prod"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-prism-console",
+        "emoji": "🕹️"
+      },
+      {
+        "id": "blackroad-os-archive",
+        "name": "Archive",
+        "description": "Historical data and backups",
+        "domain": "storage",
+        "type": "infrastructure",
+        "status": "ready",
+        "environments": ["dev", "staging", "prod"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-archive",
+        "emoji": "📦"
+      }
+    ],
+    "packs": [
+      {
+        "id": "blackroad-os-pack-finance",
+        "name": "Pack: Finance",
+        "description": "Financial services and integrations",
+        "domain": "finance",
+        "type": "pack",
+        "status": "experimental",
+        "environments": ["dev", "staging"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-pack-finance",
+        "emoji": "💰",
+        "complianceSensitive": true
+      },
+      {
+        "id": "blackroad-os-pack-legal",
+        "name": "Pack: Legal",
+        "description": "Legal services and compliance tools",
+        "domain": "legal",
+        "type": "pack",
+        "status": "experimental",
+        "environments": ["dev"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-pack-legal",
+        "emoji": "⚖️",
+        "complianceSensitive": true
+      },
+      {
+        "id": "blackroad-os-pack-education",
+        "name": "Pack: Education",
+        "description": "Educational content and learning management",
+        "domain": "education",
+        "type": "pack",
+        "status": "in-progress",
+        "environments": ["dev", "staging"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-pack-education",
+        "emoji": "📚"
+      },
+      {
+        "id": "blackroad-os-pack-infra-devops",
+        "name": "Pack: Infra DevOps",
+        "description": "DevOps tooling and infrastructure utilities",
+        "domain": "devops",
+        "type": "pack",
+        "status": "in-progress",
+        "environments": ["dev", "staging"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-pack-infra-devops",
+        "emoji": "🔧"
+      },
+      {
+        "id": "blackroad-os-pack-creator-studio",
+        "name": "Pack: Creator Studio",
+        "description": "Content creation and media tools",
+        "domain": "media",
+        "type": "pack",
+        "status": "experimental",
+        "environments": ["dev"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-pack-creator-studio",
+        "emoji": "🎨"
+      }
+    ],
+    "support": [
+      {
+        "id": "blackroad-os-brand",
+        "name": "Brand",
+        "description": "Brand assets and guidelines",
+        "domain": "brand",
+        "type": "support",
+        "status": "ready",
+        "environments": [],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-brand",
+        "emoji": "🎨"
+      },
+      {
+        "id": "blackroad-os-docs",
+        "name": "Docs",
+        "description": "Documentation and knowledge base",
+        "domain": "documentation",
+        "type": "support",
+        "status": "ready",
+        "environments": [],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-docs",
+        "emoji": "📖"
+      },
+      {
+        "id": "blackroad-os-home",
+        "name": "Home",
+        "description": "Landing page and marketing site",
+        "domain": "marketing",
+        "type": "support",
+        "status": "ready",
+        "environments": ["staging", "prod"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-home",
+        "emoji": "🏠"
+      },
+      {
+        "id": "blackroad-os-research",
+        "name": "Research",
+        "description": "R&D and experimentation",
+        "domain": "research",
+        "type": "support",
+        "status": "experimental",
+        "environments": ["dev"],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-research",
+        "emoji": "🧪"
+      }
+    ],
+    "meta": [
+      {
+        "id": "blackroad-os-master",
+        "name": "Master",
+        "description": "Meta-orchestrator and control book",
+        "domain": "orchestration",
+        "type": "meta",
+        "status": "ready",
+        "environments": [],
+        "url": "https://github.com/BlackRoad-OS/blackroad-os-master",
+        "emoji": "🧠"
+      }
+    ]
+  },
+  "environments": {
+    "dev": {
+      "name": "Development",
+      "description": "Development and testing environment",
+      "emoji": "🟠"
+    },
+    "staging": {
+      "name": "Staging",
+      "description": "Pre-production environment",
+      "emoji": "🟡"
+    },
+    "prod": {
+      "name": "Production",
+      "description": "Live production environment",
+      "emoji": "🟢"
+    }
+  },
+  "domains": {
+    "platform": "Core platform functionality",
+    "frontend": "User-facing web interfaces",
+    "backend": "Server-side API and services",
+    "infrastructure": "Cloud and infrastructure services",
+    "automation": "CI/CD and job orchestration",
+    "observability": "Monitoring and dashboards",
+    "storage": "Data storage and archival",
+    "finance": "Financial services",
+    "legal": "Legal and compliance",
+    "education": "Educational content",
+    "devops": "DevOps tooling",
+    "media": "Media and content creation",
+    "brand": "Brand identity",
+    "documentation": "Technical documentation",
+    "marketing": "Marketing and landing pages",
+    "research": "Research and development",
+    "orchestration": "Cross-repo coordination"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "$schema": "../schemas/automation.schema.json",
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-25T22:41:00Z",
+  "description": "🧬 High-level configs that automation/agents read",
+  "coreRepos": [
+    "blackroad-os-core",
+    "blackroad-os-web",
+    "blackroad-os-api",
+    "blackroad-os-api-gateway"
+  ],
+  "livePacks": [
+    "blackroad-os-pack-education",
+    "blackroad-os-pack-infra-devops"
+  ],
+  "experimentalPacks": [
+    "blackroad-os-pack-finance",
+    "blackroad-os-pack-legal",
+    "blackroad-os-pack-creator-studio"
+  ],
+  "allowedEnvironments": ["dev", "staging", "prod"],
+  "labels": {
+    "priority": {
+      "critical": {
+        "name": "priority: critical",
+        "color": "b60205",
+        "description": "🔴 Critical priority - immediate attention required",
+        "emoji": "🔴"
+      },
+      "high": {
+        "name": "priority: high",
+        "color": "d93f0b",
+        "description": "🟠 High priority",
+        "emoji": "🟠"
+      },
+      "medium": {
+        "name": "priority: medium",
+        "color": "fbca04",
+        "description": "🟡 Medium priority",
+        "emoji": "🟡"
+      },
+      "low": {
+        "name": "priority: low",
+        "color": "0e8a16",
+        "description": "🟢 Low priority",
+        "emoji": "🟢"
+      }
+    },
+    "status": {
+      "ready": {
+        "name": "status: ready",
+        "color": "0e8a16",
+        "description": "🟢 Ready for production",
+        "emoji": "🟢"
+      },
+      "in-progress": {
+        "name": "status: in-progress",
+        "color": "fbca04",
+        "description": "🟡 Work in progress",
+        "emoji": "🟡"
+      },
+      "experimental": {
+        "name": "status: experimental",
+        "color": "d93f0b",
+        "description": "🟠 Experimental feature",
+        "emoji": "🟠"
+      },
+      "blocked": {
+        "name": "status: blocked",
+        "color": "b60205",
+        "description": "🔴 Blocked by dependency",
+        "emoji": "🔴"
+      }
+    },
+    "type": {
+      "feature": {
+        "name": "type: feature",
+        "color": "1d76db",
+        "description": "✨ New feature",
+        "emoji": "✨"
+      },
+      "bug": {
+        "name": "type: bug",
+        "color": "b60205",
+        "description": "🐛 Bug fix",
+        "emoji": "🐛"
+      },
+      "docs": {
+        "name": "type: docs",
+        "color": "0075ca",
+        "description": "📖 Documentation",
+        "emoji": "📖"
+      },
+      "infra": {
+        "name": "type: infra",
+        "color": "d4c5f9",
+        "description": "☁️ Infrastructure",
+        "emoji": "☁️"
+      },
+      "security": {
+        "name": "type: security",
+        "color": "b60205",
+        "description": "🔐 Security",
+        "emoji": "🔐"
+      }
+    },
+    "domain": {
+      "core": {
+        "name": "domain: core",
+        "color": "5319e7",
+        "description": "🧱 Core platform",
+        "emoji": "🧱"
+      },
+      "frontend": {
+        "name": "domain: frontend",
+        "color": "1d76db",
+        "description": "🌐 Frontend",
+        "emoji": "🌐"
+      },
+      "backend": {
+        "name": "domain: backend",
+        "color": "0e8a16",
+        "description": "🔌 Backend",
+        "emoji": "🔌"
+      },
+      "infra": {
+        "name": "domain: infra",
+        "color": "d4c5f9",
+        "description": "☁️ Infrastructure",
+        "emoji": "☁️"
+      },
+      "packs": {
+        "name": "domain: packs",
+        "color": "fbca04",
+        "description": "📦 Packs",
+        "emoji": "📦"
+      }
+    },
+    "compliance": {
+      "sensitive": {
+        "name": "compliance: sensitive",
+        "color": "b60205",
+        "description": "⚖️ Compliance-sensitive",
+        "emoji": "⚖️"
+      },
+      "finance": {
+        "name": "compliance: finance",
+        "color": "b60205",
+        "description": "💰 Finance-related",
+        "emoji": "💰"
+      },
+      "identity": {
+        "name": "compliance: identity",
+        "color": "b60205",
+        "description": "🪪 Identity-related",
+        "emoji": "🪪"
+      }
+    }
+  },
+  "projectFields": {
+    "status": {
+      "type": "single-select",
+      "options": ["Backlog", "Todo", "In Progress", "In Review", "Done", "Archived"]
+    },
+    "priority": {
+      "type": "single-select",
+      "options": ["Critical", "High", "Medium", "Low"]
+    },
+    "sprint": {
+      "type": "iteration",
+      "duration": "2 weeks"
+    },
+    "estimate": {
+      "type": "number",
+      "unit": "story points"
+    },
+    "owner": {
+      "type": "single-select",
+      "options": ["core-platform", "frontend", "backend", "infrastructure", "observability", "packs", "brand-docs", "research", "orchestration"]
+    }
+  }
+}

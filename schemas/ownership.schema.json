@@ -1,0 +1,167 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://blackroad.os/schemas/ownership.schema.json",
+  "title": "BlackRoad OS Ownership Registry",
+  "description": "Schema for mapping teams/agents → ownership areas",
+  "type": "object",
+  "required": ["version", "lastUpdated", "description", "teams", "agents"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this schema"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Schema version in semver format"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last update"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of this registry"
+    },
+    "teams": {
+      "type": "object",
+      "description": "Human teams and their ownership areas",
+      "additionalProperties": {
+        "$ref": "#/definitions/team"
+      }
+    },
+    "agents": {
+      "type": "object",
+      "description": "Automated agents and their capabilities",
+      "additionalProperties": {
+        "$ref": "#/definitions/agent"
+      }
+    },
+    "escalationPaths": {
+      "type": "object",
+      "description": "Escalation paths for different scenarios",
+      "additionalProperties": {
+        "$ref": "#/definitions/escalationPath"
+      }
+    }
+  },
+  "definitions": {
+    "team": {
+      "type": "object",
+      "required": ["id", "name", "description", "emoji", "type", "areas", "responsibilities"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Unique team identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable team name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Team description"
+        },
+        "emoji": {
+          "type": "string",
+          "description": "Representative emoji"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["human", "hybrid"],
+          "description": "Team type"
+        },
+        "areas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Repository IDs owned by this team"
+        },
+        "responsibilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Key responsibilities"
+        }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "required": ["id", "name", "description", "emoji", "type", "capabilities", "allowedAreas", "restrictions"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Unique agent identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable agent name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Agent description"
+        },
+        "emoji": {
+          "type": "string",
+          "description": "Representative emoji"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["agent"],
+          "description": "Entity type"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Agent capabilities"
+        },
+        "allowedAreas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Repository patterns the agent can operate on"
+        },
+        "restrictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Restrictions and guardrails"
+        }
+      }
+    },
+    "escalationPath": {
+      "type": "object",
+      "required": ["description", "path", "emoji"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Escalation path description"
+        },
+        "path": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Ordered list of team IDs to escalate to"
+        },
+        "emoji": {
+          "type": "string",
+          "description": "Representative emoji"
+        },
+        "note": {
+          "type": "string",
+          "description": "Additional notes (e.g., compliance markers)"
+        }
+      }
+    }
+  }
+}

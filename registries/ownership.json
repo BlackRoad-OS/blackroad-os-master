@@ -1,0 +1,219 @@
+{
+  "$schema": "../schemas/ownership.schema.json",
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-25T22:41:00Z",
+  "description": "🧭 Mapping of teams/agents → ownership areas",
+  "teams": {
+    "core-platform": {
+      "id": "core-platform",
+      "name": "Core Platform Team",
+      "description": "Owns core business logic and shared libraries",
+      "emoji": "🧱",
+      "type": "human",
+      "areas": ["blackroad-os-core"],
+      "responsibilities": [
+        "Core business logic",
+        "Shared libraries and utilities",
+        "API contracts and schemas"
+      ]
+    },
+    "frontend": {
+      "id": "frontend",
+      "name": "Frontend Team",
+      "description": "Owns web applications and UI components",
+      "emoji": "🌐",
+      "type": "human",
+      "areas": ["blackroad-os-web"],
+      "responsibilities": [
+        "Web application development",
+        "UI/UX implementation",
+        "Frontend performance"
+      ]
+    },
+    "backend": {
+      "id": "backend",
+      "name": "Backend Team",
+      "description": "Owns API services and backend logic",
+      "emoji": "🔌",
+      "type": "human",
+      "areas": ["blackroad-os-api", "blackroad-os-api-gateway"],
+      "responsibilities": [
+        "API development and maintenance",
+        "Gateway configuration",
+        "Backend performance and scaling"
+      ]
+    },
+    "infrastructure": {
+      "id": "infrastructure",
+      "name": "Infrastructure Team",
+      "description": "Owns cloud infrastructure and DevOps",
+      "emoji": "☁️",
+      "type": "human",
+      "areas": ["blackroad-os-infra", "blackroad-os-operator"],
+      "responsibilities": [
+        "Infrastructure as code",
+        "CI/CD pipelines",
+        "Cloud resource management",
+        "Job orchestration"
+      ]
+    },
+    "observability": {
+      "id": "observability",
+      "name": "Observability Team",
+      "description": "Owns monitoring and dashboards",
+      "emoji": "📊",
+      "type": "human",
+      "areas": ["blackroad-os-prism-console", "blackroad-os-archive"],
+      "responsibilities": [
+        "Monitoring and alerting",
+        "Dashboard development",
+        "Log management",
+        "Data archival"
+      ]
+    },
+    "packs": {
+      "id": "packs",
+      "name": "Packs Team",
+      "description": "Owns domain-specific packs",
+      "emoji": "📦",
+      "type": "human",
+      "areas": [
+        "blackroad-os-pack-finance",
+        "blackroad-os-pack-legal",
+        "blackroad-os-pack-education",
+        "blackroad-os-pack-infra-devops",
+        "blackroad-os-pack-creator-studio"
+      ],
+      "responsibilities": [
+        "Domain-specific functionality",
+        "Pack lifecycle management",
+        "Integration with core platform"
+      ]
+    },
+    "brand-docs": {
+      "id": "brand-docs",
+      "name": "Brand & Documentation Team",
+      "description": "Owns brand identity and documentation",
+      "emoji": "📖",
+      "type": "human",
+      "areas": ["blackroad-os-brand", "blackroad-os-docs", "blackroad-os-home"],
+      "responsibilities": [
+        "Brand guidelines",
+        "Technical documentation",
+        "Marketing site"
+      ]
+    },
+    "research": {
+      "id": "research",
+      "name": "Research Team",
+      "description": "Owns R&D and experimentation",
+      "emoji": "🧪",
+      "type": "human",
+      "areas": ["blackroad-os-research"],
+      "responsibilities": [
+        "Research and prototyping",
+        "New technology evaluation",
+        "Experimental features"
+      ]
+    },
+    "orchestration": {
+      "id": "orchestration",
+      "name": "Orchestration Team",
+      "description": "Owns meta-orchestration and coordination",
+      "emoji": "🧠",
+      "type": "human",
+      "areas": ["blackroad-os-master"],
+      "responsibilities": [
+        "Cross-repo coordination",
+        "Release management",
+        "System-wide configuration"
+      ]
+    }
+  },
+  "agents": {
+    "code-review-agent": {
+      "id": "code-review-agent",
+      "name": "Code Review Agent",
+      "description": "Automated code review and suggestions",
+      "emoji": "🤖",
+      "type": "agent",
+      "capabilities": ["code-review", "linting", "security-scan"],
+      "allowedAreas": ["*"],
+      "restrictions": [
+        "Cannot merge PRs",
+        "Cannot modify production configs",
+        "Read-only access to secrets"
+      ]
+    },
+    "dependency-agent": {
+      "id": "dependency-agent",
+      "name": "Dependency Update Agent",
+      "description": "Automated dependency updates and security patches",
+      "emoji": "📦",
+      "type": "agent",
+      "capabilities": ["dependency-update", "security-patch"],
+      "allowedAreas": ["*"],
+      "restrictions": [
+        "Cannot update major versions without approval",
+        "Must run tests before PR"
+      ]
+    },
+    "docs-agent": {
+      "id": "docs-agent",
+      "name": "Documentation Agent",
+      "description": "Automated documentation generation and updates",
+      "emoji": "📝",
+      "type": "agent",
+      "capabilities": ["doc-generation", "api-docs", "readme-update"],
+      "allowedAreas": ["blackroad-os-docs", "blackroad-os-*"],
+      "restrictions": [
+        "Cannot modify code files",
+        "Limited to markdown and documentation files"
+      ]
+    },
+    "release-agent": {
+      "id": "release-agent",
+      "name": "Release Automation Agent",
+      "description": "Automated release preparation and changelog generation",
+      "emoji": "🚀",
+      "type": "agent",
+      "capabilities": ["changelog-generation", "version-bump", "release-notes"],
+      "allowedAreas": ["*"],
+      "restrictions": [
+        "Cannot deploy to production",
+        "Requires human approval for major releases"
+      ]
+    },
+    "test-agent": {
+      "id": "test-agent",
+      "name": "Test Automation Agent",
+      "description": "Automated test generation and execution",
+      "emoji": "🧪",
+      "type": "agent",
+      "capabilities": ["test-generation", "test-execution", "coverage-report"],
+      "allowedAreas": ["*"],
+      "restrictions": [
+        "Cannot modify production code",
+        "Limited to test files and fixtures"
+      ]
+    }
+  },
+  "escalationPaths": {
+    "security": {
+      "description": "Security issues escalation",
+      "path": ["infrastructure", "core-platform", "orchestration"],
+      "emoji": "🔐"
+    },
+    "compliance": {
+      "description": "Compliance-sensitive changes",
+      "path": ["packs", "orchestration"],
+      "emoji": "⚖️",
+      "note": "// COMPLIANCE-SENSITIVE ORCHESTRATION"
+    },
+    "outage": {
+      "description": "Production outage response",
+      "path": ["infrastructure", "observability", "orchestration"],
+      "emoji": "🚨"
+    }
+  }
+}

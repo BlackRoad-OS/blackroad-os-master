@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://blackroad.os/schemas/status.schema.json",
+  "title": "BlackRoad OS Status Summary",
+  "description": "Schema for meta-status views",
+  "type": "object",
+  "required": ["version", "lastUpdated", "description", "summary", "subsystems", "environments", "links"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this schema"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Schema version in semver format"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last update"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description"
+    },
+    "summary": {
+      "type": "object",
+      "required": ["overall"],
+      "properties": {
+        "overall": {
+          "$ref": "#/definitions/statusSummary"
+        }
+      }
+    },
+    "subsystems": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/subsystem"
+      }
+    },
+    "environments": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/environmentStatus"
+      }
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "format": "uri"
+      }
+    }
+  },
+  "definitions": {
+    "statusSummary": {
+      "type": "object",
+      "required": ["status", "emoji", "message"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["ready", "in-progress", "experimental", "blocked", "degraded"],
+          "description": "Overall status"
+        },
+        "emoji": {
+          "type": "string",
+          "description": "Status emoji"
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message"
+        }
+      }
+    },
+    "subsystem": {
+      "type": "object",
+      "required": ["name", "status", "emoji", "components"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Subsystem name"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["ready", "in-progress", "experimental", "blocked", "degraded"],
+          "description": "Subsystem status"
+        },
+        "emoji": {
+          "type": "string",
+          "description": "Status emoji"
+        },
+        "components": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/componentStatus"
+          }
+        },
+        "links": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "componentStatus": {
+      "type": "object",
+      "required": ["status", "emoji"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["ready", "in-progress", "experimental", "blocked", "degraded"],
+          "description": "Component status"
+        },
+        "emoji": {
+          "type": "string",
+          "description": "Status emoji"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9]+)?$",
+          "description": "Component version"
+        },
+        "lastDeployed": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last deployment timestamp"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional notes"
+        },
+        "complianceSensitive": {
+          "type": "boolean",
+          "description": "Whether this component is compliance-sensitive"
+        }
+      }
+    },
+    "environmentStatus": {
+      "type": "object",
+      "required": ["name", "status", "emoji", "url"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Environment name"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["ready", "in-progress", "degraded", "down"],
+          "description": "Environment status"
+        },
+        "emoji": {
+          "type": "string",
+          "description": "Status emoji"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Environment URL"
+        }
+      }
+    }
+  }
+}
