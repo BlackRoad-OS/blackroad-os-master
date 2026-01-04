@@ -17,12 +17,19 @@
         "type": "genesis"
       }
     },
-    "blocks": [],
+    "blocks": [
+      {
+        "blockNumber": 1,
+        "blockHash": "1565260a85b02201a40eaa22db2bcbb69071ea29a04af5322fba6881d822e42d",
+        "commitHash": "d93ed0900b2f24d378403cc04d7c8879b6f399a2",
+        "timestamp": "2026-01-04T07:30:58Z"
+      }
+    ],
     "state": {
-      "latestBlock": 0,
-      "latestHash": "fc28abb747d9e5a935df25fc213f10c1b681a03cbd6008de000178ae24310d10",
-      "totalCommits": 0,
-      "totalBlocks": 0
+      "latestBlock": 1,
+      "latestHash": "1565260a85b02201a40eaa22db2bcbb69071ea29a04af5322fba6881d822e42d",
+      "totalCommits": 1,
+      "totalBlocks": 1
     }
   }
 }

@@ -116,19 +116,16 @@ jobs:
               const latestHash = ledger.roadchain.state.latestHash;
               const chainId = ledger.roadchain.chainId;
               
-              const body = `## 🔗 RoadChain Tracking
-
-| Metric | Value |
-|--------|-------|
-| **Chain ID** | \`${chainId}\` |
-| **Total Blocks** | ${totalBlocks} |
-| **Latest Hash** | \`${latestHash.substring(0, 16)}...\` |
-| **Status** | ✅ Verified |
-
-All commits in this PR have been tracked on the RoadChain blockchain ledger.
-
----
-🔐 *Secured by RoadChain SHA-256 Commit Tracking*`;
+              const body = '## 🔗 RoadChain Tracking\n\n' +
+                '| Metric | Value |\n' +
+                '|--------|-------|\n' +
+                '| **Chain ID** | `' + chainId + '` |\n' +
+                '| **Total Blocks** | ' + totalBlocks + ' |\n' +
+                '| **Latest Hash** | `' + latestHash.substring(0, 16) + '...` |\n' +
+                '| **Status** | ✅ Verified |\n\n' +
+                'All commits in this PR have been tracked on the RoadChain blockchain ledger.\n\n' +
+                '---\n' +
+                '🔐 *Secured by RoadChain SHA-256 Commit Tracking*';
               
               const { data: comments } = await github.rest.issues.listComments({
                 owner: context.repo.owner,
