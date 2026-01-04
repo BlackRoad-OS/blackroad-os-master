@@ -24,3 +24,12 @@ Thumbs.db
 # Logs
 *.log
 logs/
+
+# RoadChain temporary files
+.roadchain/state/*.tmp
+.agent-logs/*.tmp
+
+# Build artifacts
+dist/
+build/
+node_modules/

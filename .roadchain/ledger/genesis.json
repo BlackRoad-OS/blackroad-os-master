@@ -1,0 +1,28 @@
+{
+  "roadchain": {
+    "version": "1.0.0",
+    "chainId": "..",
+    "genesis": {
+      "timestamp": "2026-01-04T07:30:34Z",
+      "hash": "fc28abb747d9e5a935df25fc213f10c1b681a03cbd6008de000178ae24310d10",
+      "previousHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "repository": {
+        "name": "..",
+        "organization": "https://github.com/BlackRoad-OS/blackroad-os-master",
+        "fullName": "https://github.com/BlackRoad-OS/blackroad-os-master/.."
+      },
+      "metadata": {
+        "created": "2026-01-04T07:30:34Z",
+        "version": "1.0.0",
+        "type": "genesis"
+      }
+    },
+    "blocks": [],
+    "state": {
+      "latestBlock": 0,
+      "latestHash": "fc28abb747d9e5a935df25fc213f10c1b681a03cbd6008de000178ae24310d10",
+      "totalCommits": 0,
+      "totalBlocks": 0
+    }
+  }
+}

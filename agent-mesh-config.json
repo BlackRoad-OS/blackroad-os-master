@@ -1,0 +1,157 @@
+{
+  "agentMesh": {
+    "enabled": true,
+    "version": "1.0.0",
+    "network": "blackroad-agent-network",
+    "discovery": {
+      "method": "service-mesh",
+      "registry": "https://agents.blackroad.io/registry",
+      "heartbeatInterval": 30,
+      "timeout": 120
+    },
+    "agents": {
+      "local": [
+        {
+          "id": "blackroad-master-coordinator",
+          "type": "coordinator",
+          "role": "orchestration",
+          "capabilities": [
+            "repository-management",
+            "cross-repo-sync",
+            "agent-coordination"
+          ],
+          "endpoints": {
+            "http": "https://blackroad-master.amundsonalexa.workers.dev",
+            "websocket": "wss://blackroad-master.amundsonalexa.workers.dev/ws"
+          }
+        },
+        {
+          "id": "blackroad-master-roadchain",
+          "type": "blockchain",
+          "role": "commit-tracking",
+          "capabilities": [
+            "sha256-tracking",
+            "ledger-management",
+            "verification"
+          ]
+        }
+      ],
+      "remote": [
+        {
+          "id": "blackroad-agents-ai",
+          "repository": "https://github.com/BlackRoad-OS/blackroad-agents",
+          "type": "ai-assistant",
+          "capabilities": [
+            "code-analysis",
+            "auto-fix",
+            "documentation"
+          ],
+          "endpoint": "https://blackroad-agents.amundsonalexa.workers.dev"
+        },
+        {
+          "id": "blackroad-deploy-dispatcher",
+          "type": "deployment",
+          "capabilities": [
+            "auto-deploy",
+            "infrastructure-management",
+            "monitoring"
+          ],
+          "endpoint": "https://blackroad-deploy-dispatcher.amundsonalexa.workers.dev"
+        }
+      ]
+    },
+    "communication": {
+      "protocol": "blackroad-agent-protocol-v1",
+      "transport": ["http", "websocket", "nats"],
+      "encryption": {
+        "enabled": true,
+        "method": "tls",
+        "minVersion": "1.3"
+      },
+      "authentication": {
+        "method": "jwt",
+        "issuer": "blackroad-os",
+        "audience": "blackroad-agents"
+      },
+      "messageFormat": "json",
+      "compression": true
+    },
+    "routing": {
+      "strategy": "intelligent",
+      "loadBalancing": true,
+      "failover": {
+        "enabled": true,
+        "retries": 3,
+        "backoff": "exponential"
+      }
+    },
+    "repositories": {
+      "connectedRepos": [
+        {
+          "name": "blackroad-os-infra",
+          "url": "https://github.com/BlackRoad-OS/blackroad-os-infra",
+          "role": "infrastructure",
+          "syncEnabled": true
+        },
+        {
+          "name": "blackroad-os-api",
+          "url": "https://github.com/BlackRoad-OS/blackroad-os-api",
+          "role": "backend-api",
+          "syncEnabled": true
+        },
+        {
+          "name": "blackroad-os-web",
+          "url": "https://github.com/BlackRoad-OS/blackroad-os-web",
+          "role": "frontend",
+          "syncEnabled": true
+        }
+      ],
+      "syncStrategy": {
+        "commits": true,
+        "issues": true,
+        "pullRequests": true,
+        "deployments": true
+      }
+    },
+    "devices": {
+      "iotEnabled": true,
+      "deviceRegistry": "https://devices.blackroad.io/registry",
+      "protocols": ["mqtt", "coap", "http"],
+      "security": {
+        "authentication": "certificate",
+        "encryption": "tls"
+      }
+    },
+    "events": {
+      "bus": "nats",
+      "endpoints": [
+        "nats://nats.blackroad.io:4222"
+      ],
+      "topics": {
+        "commits": "blackroad.commits",
+        "deployments": "blackroad.deployments",
+        "agents": "blackroad.agents",
+        "devices": "blackroad.devices",
+        "alerts": "blackroad.alerts"
+      },
+      "persistence": true,
+      "replay": true
+    },
+    "monitoring": {
+      "enabled": true,
+      "metrics": {
+        "endpoint": "https://metrics.blackroad.io",
+        "interval": 60
+      },
+      "logging": {
+        "level": "info",
+        "destination": "https://logs.blackroad.io"
+      },
+      "tracing": {
+        "enabled": true,
+        "sampler": "probabilistic",
+        "samplingRate": 0.1
+      }
+    }
+  }
+}

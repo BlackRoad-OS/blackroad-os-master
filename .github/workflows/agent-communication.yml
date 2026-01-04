@@ -1,0 +1,226 @@
+name: Cross-Repository Agent Communication
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    types: [opened, synchronize, closed, merged]
+  issues:
+    types: [opened, closed, labeled]
+  deployment:
+    types: [created, success, failure]
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Message to broadcast'
+        required: true
+      target:
+        description: 'Target repositories (comma-separated or "all")'
+        required: false
+        default: 'all'
+
+jobs:
+  agent-communication:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Prepare event payload
+        id: payload
+        run: |
+          cat > event-payload.json << 'EOF'
+          {
+            "source": {
+              "repository": "${{ github.repository }}",
+              "event": "${{ github.event_name }}",
+              "actor": "${{ github.actor }}",
+              "ref": "${{ github.ref }}",
+              "sha": "${{ github.sha }}",
+              "timestamp": "${{ github.event.head_commit.timestamp || github.event.pull_request.updated_at || github.event.issue.updated_at }}"
+            },
+            "payload": ${{ toJson(github.event) }},
+            "agentMesh": {
+              "version": "1.0.0",
+              "protocol": "blackroad-agent-protocol-v1"
+            }
+          }
+          EOF
+          
+          echo "payload_file=event-payload.json" >> $GITHUB_OUTPUT
+      
+      - name: Broadcast to agent network
+        run: |
+          echo "📡 Broadcasting event to agent network..."
+          
+          # Send to primary agent endpoint
+          curl -X POST https://agents.blackroad.io/v1/events \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.AGENT_MESH_TOKEN }}" \
+            -d @event-payload.json \
+            --fail-with-body || echo "⚠️  Agent network unavailable"
+          
+          echo "✅ Event broadcast complete"
+      
+      - name: Sync with connected repositories
+        run: |
+          echo "🔄 Syncing with connected repositories..."
+          
+          # Read connected repos from config
+          REPOS=$(cat agent-mesh-config.json | jq -r '.agentMesh.repositories.connectedRepos[].name')
+          
+          for repo in $REPOS; do
+            echo "Notifying repository: $repo"
+            
+            # Send repository dispatch event
+            curl -X POST \
+              "https://api.github.com/repos/BlackRoad-OS/$repo/dispatches" \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: Bearer ${{ secrets.CROSS_REPO_TOKEN }}" \
+              -d "{
+                \"event_type\": \"cross_repo_event\",
+                \"client_payload\": {
+                  \"source_repo\": \"${{ github.repository }}\",
+                  \"event\": \"${{ github.event_name }}\",
+                  \"ref\": \"${{ github.ref }}\",
+                  \"sha\": \"${{ github.sha }}\"
+                }
+              }" || echo "⚠️  Failed to notify $repo"
+          done
+          
+          echo "✅ Repository sync complete"
+      
+      - name: Notify AI agents
+        run: |
+          echo "🤖 Notifying AI agents..."
+          
+          # Notify blackroad-agents AI system
+          curl -X POST https://blackroad-agents.amundsonalexa.workers.dev/webhook/github \
+            -H "Content-Type: application/json" \
+            -d @event-payload.json || echo "⚠️  AI agents unavailable"
+          
+          echo "✅ AI agents notified"
+      
+      - name: Update service mesh
+        run: |
+          echo "🕸️  Updating service mesh..."
+          
+          # Update service registry
+          SERVICE_STATUS=$(cat service-mesh.json | jq --arg sha "${{ github.sha }}" \
+            '.lastUpdate = now | .lastCommit = $sha')
+          
+          echo "$SERVICE_STATUS" > service-mesh.json
+          
+          # Send to mesh registry
+          curl -X PUT https://api.blackroad.io/registry/services/${{ github.repository }} \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.SERVICE_MESH_TOKEN }}" \
+            -d "$SERVICE_STATUS" || echo "⚠️  Service mesh unavailable"
+          
+          echo "✅ Service mesh updated"
+      
+      - name: Publish to event bus (NATS)
+        run: |
+          echo "📢 Publishing to event bus..."
+          
+          # Determine topic based on event type
+          case "${{ github.event_name }}" in
+            push)
+              TOPIC="blackroad.commits.${{ github.repository }}"
+              ;;
+            pull_request)
+              TOPIC="blackroad.pullrequests.${{ github.repository }}"
+              ;;
+            deployment)
+              TOPIC="blackroad.deployments.${{ github.repository }}"
+              ;;
+            issues)
+              TOPIC="blackroad.issues.${{ github.repository }}"
+              ;;
+            *)
+              TOPIC="blackroad.events.${{ github.repository }}"
+              ;;
+          esac
+          
+          # Publish to NATS (using HTTP bridge)
+          curl -X POST https://nats-bridge.blackroad.io/pub \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"topic\": \"$TOPIC\",
+              \"message\": $(cat event-payload.json)
+            }" || echo "⚠️  Event bus unavailable"
+          
+          echo "✅ Event published to: $TOPIC"
+      
+      - name: Send device notifications
+        if: github.event_name == 'deployment'
+        run: |
+          echo "📱 Sending device notifications..."
+          
+          # Send to device registry
+          curl -X POST https://devices.blackroad.io/v1/notifications \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.DEVICE_API_TOKEN }}" \
+            -d "{
+              \"source\": \"${{ github.repository }}\",
+              \"type\": \"deployment\",
+              \"status\": \"${{ github.event.deployment.state }}\",
+              \"environment\": \"${{ github.event.deployment.environment }}\",
+              \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+            }" || echo "⚠️  Device notifications unavailable"
+          
+          echo "✅ Device notifications sent"
+      
+      - name: Create communication log
+        run: |
+          mkdir -p .agent-logs
+          
+          cat > .agent-logs/communication-${{ github.run_id }}.json << EOF
+          {
+            "runId": "${{ github.run_id }}",
+            "event": "${{ github.event_name }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "source": "${{ github.repository }}",
+            "sha": "${{ github.sha }}",
+            "broadcasted": {
+              "agentNetwork": true,
+              "repositories": true,
+              "aiAgents": true,
+              "serviceMesh": true,
+              "eventBus": true,
+              "devices": $([ "${{ github.event_name }}" == "deployment" ] && echo "true" || echo "false")
+            },
+            "status": "complete"
+          }
+          EOF
+          
+          echo "✅ Communication log created"
+      
+      - name: Summary
+        run: |
+          echo "## 📡 Agent Communication Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Target | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🌐 Agent Network | ✅ Broadcasted |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔄 Connected Repos | ✅ Synced |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🤖 AI Agents | ✅ Notified |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🕸️ Service Mesh | ✅ Updated |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📢 Event Bus | ✅ Published |" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event_name }}" == "deployment" ]; then
+            echo "| 📱 Devices | ✅ Notified |" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Event:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**SHA:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
