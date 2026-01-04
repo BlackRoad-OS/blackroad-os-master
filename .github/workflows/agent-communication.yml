@@ -116,8 +116,9 @@ jobs:
           echo "🕸️  Updating service mesh..."
           
           # Update service registry
-          SERVICE_STATUS=$(cat service-mesh.json | jq --arg sha "${{ github.sha }}" \
-            '.lastUpdate = now | .lastCommit = $sha')
+          TIMESTAMP=$(date -u +"%s")
+          SERVICE_STATUS=$(cat service-mesh.json | jq --arg sha "${{ github.sha }}" --argjson ts "$TIMESTAMP" \
+            '. + {lastUpdate: $ts, lastCommit: $sha}')
           
           echo "$SERVICE_STATUS" > service-mesh.json
           

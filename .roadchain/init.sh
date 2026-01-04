@@ -18,7 +18,14 @@ mkdir -p "$REPO_ROOT/.roadchain/state"
 
 # Get repository info
 REPO_NAME=$(basename $REPO_ROOT)
-REPO_ORG=$(git remote get-url origin | sed -E 's/.*[:/]([^/]+)\/[^/]+\.git/\1/' 2>/dev/null || echo "local")
+if git remote get-url origin &>/dev/null; then
+  REMOTE_URL=$(git remote get-url origin)
+  REPO_ORG=$(echo "$REMOTE_URL" | sed -E 's|.*[:/]([^/]+)/[^/]+(.git)?$|\1|')
+  REPO_NAME=$(echo "$REMOTE_URL" | sed -E 's|.*[:/][^/]+/([^/]+)(.git)?$|\1|')
+else
+  REPO_ORG="local"
+  REPO_NAME=$(basename $REPO_ROOT)
+fi
 GENESIS_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 GENESIS_HASH=$(echo -n "${REPO_ORG}/${REPO_NAME}:${GENESIS_TIMESTAMP}" | sha256sum | cut -d' ' -f1)
 
